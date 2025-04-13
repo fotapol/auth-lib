@@ -32,3 +32,6 @@ ignore = []
 [tool.ruff.format]
 quote-style = "double"
 line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
