@@ -1,0 +1,37 @@
+[project]
+name = "auth-lib"
+version = "0.1.0"
+description = "Common library"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.12",
+    "httpx>=0.28.1",
+    "pyjwt>=2.10.1",
+    "sqlalchemy[asyncio]>=2.0.40",
+    "sqlmodel>=0.0.24",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.5", # For testing async code
+    "ruff>=0.11.2",           # Linter/Formatter
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "PL", "T20"] # Example selection, customize as needed
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
