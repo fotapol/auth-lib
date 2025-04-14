@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 bearer_scheme = HTTPBearer()
 
-JWT_SECRET_KEY = os.environ.get("JWT_SECRET")
+JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 if not JWT_SECRET_KEY:
     logger.warning("JWT_SECRET_KEY does not set!")
     raise RuntimeError("JWT_SECRET_KEY must be set")
