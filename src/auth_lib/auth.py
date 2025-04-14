@@ -13,8 +13,8 @@ bearer_scheme = HTTPBearer()
 
 JWT_SECRET_KEY = os.environ.get("JWT_SECRET")
 if not JWT_SECRET_KEY:
-    logger.warning("AUTH_LIB_JWT_SECRET does not set!")
-    raise RuntimeError("JWT_SECRET must be set")
+    logger.warning("JWT_SECRET_KEY does not set!")
+    raise RuntimeError("JWT_SECRET_KEY must be set")
 
 JWT_ALGORITHM = "HS256"
 
