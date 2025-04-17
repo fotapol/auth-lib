@@ -25,7 +25,7 @@ jobs:
         run: uv sync --all-extras
 
       - name: Run ruff lint and auto-fix
-        run: ruff check . --fix
+        run: uv run ruff check . --fix
 
       - name: Run pytest
-        run: pytest --maxfail=1 --disable-warnings -q
+        run: uv run pytest --maxfail=1 --disable-warnings -q
