@@ -1,0 +1,31 @@
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: 'latest'
+
+      - name: Sync all dependencies (including extras)
+        run: uv sync --all-extras
+
+      - name: Run ruff lint and auto-fix
+        run: uv run ruff check . --fix
+
+      - name: Run pytest
+        run: uv run pytest --maxfail=1 --disable-warnings -q
