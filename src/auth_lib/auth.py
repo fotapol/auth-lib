@@ -17,6 +17,7 @@ if not JWT_SECRET_KEY:
     raise RuntimeError("JWT_SECRET_KEY must be set")
 
 JWT_ALGORITHM = "HS256"
+JWT_AUDIENCE = "fastapi-users:auth"
 
 
 async def get_current_user_id(
@@ -41,7 +42,7 @@ async def get_current_user_id(
 
     try:
         payload = jwt.decode(
-            auth_token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM], audience="fastapi-users:auth"
+            auth_token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM], audience=[JWT_AUDIENCE]
         )
         user_id_str: str | None = payload.get("sub")
         if user_id_str is None:
