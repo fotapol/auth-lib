@@ -11,21 +11,22 @@ from auth_lib.auth import get_current_user_id
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.asyncio
-async def test_valid_token(
-    test_jwt_secret_key: str,
-    test_jwt_algorithm: str
-):
+async def test_valid_token(test_jwt_secret_key: str, test_jwt_algorithm: str):
     """
     Check if function does not work without JWT token
     """
     # given...
     user_id = uuid.uuid4()
-    payload = {"sub": str(user_id)}
+    payload = {
+        "sub": str(user_id),
+        "aud": ["fastapi-users:auth"],
+    }
     token = jwt.encode(
         payload=payload,
         key=test_jwt_secret_key,
-        algorithm=test_jwt_algorithm
+        algorithm=test_jwt_algorithm,
     )
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
 
@@ -37,20 +38,16 @@ async def test_valid_token(
 
 
 @pytest.mark.asyncio
-async def test_token_missing_sub(
-    test_jwt_secret_key: str,
-    test_jwt_algorithm: str
-):
+async def test_token_missing_sub(test_jwt_secret_key: str, test_jwt_algorithm: str):
     """
     Check if function does not work with missing 'sub'
     """
     # given...
-    payload = {"sub": ""}
-    token = jwt.encode(
-        payload=payload,
-        key=test_jwt_secret_key,
-        algorithm=test_jwt_algorithm
-    )
+    payload = {
+        "sub": "",
+        "aud": ["fastapi-users:auth"],
+    }
+    token = jwt.encode(payload=payload, key=test_jwt_secret_key, algorithm=test_jwt_algorithm)
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
 
     # when...
@@ -64,23 +61,16 @@ async def test_token_missing_sub(
 
 
 @pytest.mark.asyncio
-async def test_expired_token(
-    test_jwt_secret_key: str,
-    test_jwt_algorithm: str
-):
+async def test_expired_token(test_jwt_secret_key: str, test_jwt_algorithm: str):
     """
     Check if function does not work with expired token
     """
     # given...
     payload = {
         "sub": str(uuid.uuid4()),
-        "exp": datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=2)
+        "exp": datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=2),
     }
-    token = jwt.encode(
-        payload=payload,
-        key=test_jwt_secret_key,
-        algorithm=test_jwt_algorithm
-    )
+    token = jwt.encode(payload=payload, key=test_jwt_secret_key, algorithm=test_jwt_algorithm)
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
 
     # when...
@@ -93,18 +83,14 @@ async def test_expired_token(
 
 
 @pytest.mark.asyncio
-async def test_invalid_signature(
-    test_jwt_algorithm: str
-):
+async def test_invalid_signature(test_jwt_algorithm: str):
     """
     Check if function does not work with invalid signature
     """
     # given...
     user_id = uuid.uuid4()
     token = jwt.encode(
-        payload={"sub": str(user_id)},
-        key="wrong_secret",
-        algorithm=test_jwt_algorithm
+        payload={"sub": str(user_id)}, key="wrong_secret", algorithm=test_jwt_algorithm
     )
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
 
@@ -125,11 +111,7 @@ async def test_invalid_algorithm(
     """
     # given...
     user_id = uuid.uuid4()
-    token = jwt.encode(
-        payload={"sub": str(user_id)},
-        key=test_jwt_secret_key,
-        algorithm="HS512"
-    )
+    token = jwt.encode(payload={"sub": str(user_id)}, key=test_jwt_secret_key, algorithm="HS512")
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
 
     # when...
