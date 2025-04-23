@@ -21,7 +21,6 @@ async def test_valid_token(test_jwt_secret_key: str, test_jwt_algorithm: str):
     user_id = uuid.uuid4()
     payload = {
         "sub": str(user_id),
-        "aud": ["fastapi-users:auth"],
     }
     token = jwt.encode(
         payload=payload,
@@ -45,7 +44,6 @@ async def test_token_missing_sub(test_jwt_secret_key: str, test_jwt_algorithm: s
     # given...
     payload = {
         "sub": "",
-        "aud": ["fastapi-users:auth"],
     }
     token = jwt.encode(payload=payload, key=test_jwt_secret_key, algorithm=test_jwt_algorithm)
     credentials = HTTPAuthorizationCredentials(credentials=token, scheme="Bearer")
