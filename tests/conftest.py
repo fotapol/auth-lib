@@ -12,6 +12,7 @@ TEST_USER_ID = uuid.uuid4()
 def pytest_configure(config):
     os.environ["JWT_SECRET_KEY"] = str(uuid.uuid4())
 
+
 @pytest_asyncio.fixture
 async def test_token():
     return TEST_USER_ID
