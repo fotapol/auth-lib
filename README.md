@@ -1,6 +1,6 @@
 # Auth Library
 
-The Auth Library provides JWT-based authentication utilities for FastBoosty microservices. It is designed to be used as a shared dependency for verifying and extracting user identity from JWT tokens in FastAPI-based services.
+The Auth Library provides JWT-based authentication utilities for FastAPI services. It is designed to be used as a shared dependency for verifying and extracting user identity from JWT tokens in FastAPI-based services.
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ async def protected_route(user_uuid: CurrentUserUUID):
 
 Set the following environment variable in your service:
 
-- `JWT_SECRET_KEY` – Secret key for verifying JWT tokens (required). It must be the same key which you use in the [`auth_service`](https://github.com/fotapol/fastboosty-auth_service)
+- `JWT_SECRET_KEY` – Secret key for verifying JWT tokens (required). It must be the same key which you use in the [`auth_service`](https://github.com/labtst-online/fast-auth_service.git)
 
 ## Testing
 
